@@ -8,7 +8,7 @@ Las canciones favoritas se acumulan en fuentes dispersas (YouTube, Shazam, Spoti
 
 ## Arquitectura
 
-```mermeid
+```mermaid
 flowchart TD
     %% Definición de Nodos y su contenido
     ExtChrome["<b>[Extensión Chrome]</b><br/>YouTube Data API v3<br/>Modo manual"]
