@@ -8,39 +8,42 @@ Las canciones favoritas se acumulan en fuentes dispersas (YouTube, Shazam, Spoti
 
 ## Arquitectura
 
-```plaintext
-[Extensión Chrome]  ──►  [Edge Functions - Supabase]  ──►  [PostgreSQL - Supabase]
-  YouTube Data API v3      ingest: captura                   Fuente de verdad (nube)
-  Modo manual              mark_played: feedback                     │
-                                                                     │
-[Parsers históricos]  ──────────────────────────────────────────────┘
-  bookmarks HTML (music.html)                                        │
-  Shazam CSV (shazamlibrary.csv)                          [GitHub Actions - cron]
-  Exportify CSV (liked.csv)                                 ETL Python semanal
-  TXT manual (radios.txt)                                   MusicBrainz + Last.fm
-                                                            Export JSON estáticos
-                                                            pg_dump → backup
-                                                            Build + Deploy frontend
-                                                            Keep-alive diario
-                                                                     │
-                                              ┌──────────────────────┘
-                                              │
-                               [GitHub Pages] │  [PostgreSQL local (Windows)]
-                               React + Vite   │  Restaurado con restore_local.ps1
-                               Dashboard      │  Exploración offline vía pgAdmin/psql
+```mermeid
+flowchart TD
+    %% Definición de Nodos y su contenido
+    ExtChrome["<b>[Extensión Chrome]</b><br/>YouTube Data API v3<br/>Modo manual"]
+    EdgeFunc["<b>[Edge Functions - Supabase]</b><br/>ingest: captura<br/>mark_played: feedback"]
+    PGSupabase[("<b>[PostgreSQL - Supabase]</b><br/>Fuente de verdad (nube)")]
+
+    Parsers["<b>[Parsers históricos]</b><br/>bookmarks HTML (music.html)<br/>Shazam CSV (shazamlibrary.csv)<br/>Exportify CSV (liked.csv)<br/>TXT manual (radios.txt)"]
+
+    GHActions["<b>[GitHub Actions - cron]</b><br/>ETL Python semanal<br/>MusicBrainz + Last.fm<br/>Export JSON estáticos<br/>pg_dump → backup<br/>Build + Deploy frontend<br/>Keep-alive diario"]
+
+    GHPages["<b>[GitHub Pages]</b><br/>React + Vite<br/>Dashboard"]
+    PGLocal[("<b>[PostgreSQL local (Windows)]</b><br/>Restaurado con restore_local.ps1<br/>Exploración offline vía pgAdmin/psql")]
+
+    %% Relaciones y flujo de datos
+    ExtChrome --> EdgeFunc
+    EdgeFunc --> PGSupabase
+    Parsers --> PGSupabase
+
+    PGSupabase --> GHActions
+
+    GHActions --> GHPages
+    GHActions --> PGLocal
 ```
 
 ## Componentes
 
-| Componente         | Tecnología                                                   | Rol                                 |
-| ------------------ | ------------------------------------------------------------ | ----------------------------------- |
-| Extensión          | Chrome MV3 · JS · YouTube Data API v3                        | Captura inmediata con nota opcional |
-| Ingesta            | Supabase Edge Functions (Deno/TS) · `ingest` + `mark_played` | Proxy seguro hacia la BD            |
-| Base de datos      | PostgreSQL · Supabase Free Tier                              | Fuente de verdad en nube            |
-| Parsers históricos | Python · BeautifulSoup · csv                                 | Ingesta de archivos acumulados      |
-| ETL semanal        | Python · GitHub Actions (cron)                               | Enriquecimiento + export + backup   |
-| Enriquecimiento    | MusicBrainz · Last.fm                                        | Metadatos canónicos + géneros       |
-| Frontend           | React · Vite · GitHub Pages                                  | Dashboard estático + fetches live   |
+| Componente         | Tecnología                                                   | Rol                                                 |
+| ------------------ | ------------------------------------------------------------ | --------------------------------------------------- |
+| Extensión          | Chrome MV3 · JS · YouTube Data API v3                        | Captura inmediata con nota opcional                 |
+| Ingesta            | Supabase Edge Functions (Deno/TS) · `ingest` + `mark_played` | Proxy seguro hacia la BD                            |
+| Base de datos      | PostgreSQL · Supabase Free Tier                              | Fuente de verdad en nube                            |
+| Parsers históricos | Python · BeautifulSoup · csv                                 | Ingesta de archivos acumulados                      |
+| ETL semanal        | Python · GitHub Actions (cron)                               | Enriquecimiento + export + backup                   |
+| Enriquecimiento    | MusicBrainz · Last.fm                                        | Metadatos canónicos + géneros                       |
+| Frontend           | React · Vite · GitHub Pages                                  | Dashboard estático + fetches live                   |
 | Backup local       | pg_dump · PowerShell · PostgreSQL local (Windows)            | Restauración offline desde artefacto GitHub Actions |
 
 ## Disponibilidad
@@ -56,7 +59,7 @@ Las canciones favoritas se acumulan en fuentes dispersas (YouTube, Shazam, Spoti
 ## Estructura del repositorio
 
 ```bash
-gmc/
+CentralizedMusicManagementSystem/
 ├── docs/
 │   ├── PRODUCT.md              # Visión, flujos y requisitos
 │   └── SPEC.md                 # Arquitectura, esquema, backlog técnico
@@ -98,15 +101,14 @@ GMC_INGEST_SECRET=            # Shared secret entre extensión y Edge Function i
 
 ## Estado del proyecto
 
-| Fase | Épica                                          | Estado       |
-| ---- | ---------------------------------------------- | ------------ |
-| 1    | Supabase: esquema + Edge Functions             | 🔲 Pendiente |
-| 2    | Parsers históricos                             | 🔲 Pendiente |
-| 3    | Extensión Chrome                               | 🔲 Pendiente |
-| 4    | ETL semanal: enriquecimiento + export + backup | 🔲 Pendiente |
-| 5    | Frontend dashboard                             | 🔲 Pendiente |
+| Fase | Épica                                          | Estado      |
+| ---- | ---------------------------------------------- | ----------- |
+| 1    | Supabase: esquema + Edge Functions             | ◻ Pendiente |
+| 2    | Parsers históricos                             | ◻ Pendiente |
+| 3    | Extensión Chrome                               | ◻ Pendiente |
+| 4    | ETL semanal: enriquecimiento + export + backup | ◻ Pendiente |
+| 5    | Frontend dashboard                             | ◻ Pendiente |
 
 ## Licencia
 
 MIT
-

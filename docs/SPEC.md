@@ -472,13 +472,13 @@ Error inesperado:
 
 **Playlists estáticas** (generadas cada domingo por el ETL, consumidas como JSON):
 
-| Archivo                   | Query base                                                                                                                                                       | Uso en frontend       |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `recent_tracks.json`      | JOIN `tracks ↔ sources` (en `tracks.source_id`); `ORDER BY sources.discovered_at DESC LIMIT 50`; incluye `sources.note`                                         | Historial reciente    |
+| Archivo                   | Query base                                                                                                                                                                                                        | Uso en frontend       |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| `recent_tracks.json`      | JOIN `tracks ↔ sources` (en `tracks.source_id`); `ORDER BY sources.discovered_at DESC LIMIT 50`; incluye `sources.note`                                                                                           | Historial reciente    |
 | `playlist_forgotten.json` | JOIN `tracks ↔ sources`; `discovered_at < now() - interval '6 months'` AND (`last_suggested_at IS NULL` OR `last_suggested_at < now() - interval '4 weeks'`) `ORDER BY RANDOM() LIMIT 20`; incluye `sources.note` | "Joyas olvidadas"     |
-| `playlist_by_genre.json`  | `UNNEST(genres)` + `GROUP BY` + top 10 géneros                                                                                                                   | Navegación por género |
-| `playlist_by_era.json`    | `DATE_TRUNC('quarter', sources.discovered_at)` + `GROUP BY`; JOIN con `sources`                                                                                  | Línea de tiempo       |
-| `stats.json`              | Totales: tracks, artistas, álbumes, géneros únicos, breakdown mensual                                                                                            | Estadísticas          |
+| `playlist_by_genre.json`  | `UNNEST(genres)` + `GROUP BY` + top 10 géneros                                                                                                                                                                    | Navegación por género |
+| `playlist_by_era.json`    | `DATE_TRUNC('quarter', sources.discovered_at)` + `GROUP BY`; JOIN con `sources`                                                                                                                                   | Línea de tiempo       |
+| `stats.json`              | Totales: tracks, artistas, álbumes, géneros únicos, breakdown mensual                                                                                                                                             | Estadísticas          |
 
 > **Nota sobre `sources.note`:** todos los JSON que renderizan cards de tracks individuales deben incluir el campo `note` de la tabla `sources` (JOIN por `tracks.source_id`). Es el único campo que requiere este JOIN en el export estático; el resto de metadatos vive en `tracks`, `artists` y `albums`.
 
@@ -735,7 +735,7 @@ jobs:
 ```yaml
 on:
   schedule:
-    - cron: "0 12 * * *"   # 12:00 UTC diario; evita la pausa automática del Free Tier
+    - cron: "0 12 * * *" # 12:00 UTC diario; evita la pausa automática del Free Tier
   workflow_dispatch:
 
 jobs:
@@ -859,7 +859,7 @@ El workflow `keepalive.yml` genera actividad diaria en el proyecto de Supabase p
 ```yaml
 on:
   schedule:
-    - cron: "0 12 * * *"   # 12:00 UTC diario
+    - cron: "0 12 * * *" # 12:00 UTC diario
 
 jobs:
   ping:
@@ -1032,4 +1032,3 @@ Criterios de aceptación:
 - Botón "✓ Escuchada" por track: llama a Edge Function `mark_played`; actualiza `last_played_at` localmente sin reload.
 - Sección "Para escuchar hoy" prioriza tracks con `last_played_at IS NULL` o más antigua.
 - Sección "Pendientes / Fallidos": cada item tiene formulario inline para editar `user_artist` y `user_title` y reenviarlos como `pending` para el próximo ETL.
-
