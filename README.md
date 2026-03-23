@@ -35,16 +35,16 @@ flowchart TD
 
 ## Componentes
 
-| Componente         | Tecnología                                                   | Rol                                                 |
-| ------------------ | ------------------------------------------------------------ | --------------------------------------------------- |
-| Extensión          | Chrome MV3 · JS · YouTube Data API v3                        | Captura inmediata con nota opcional                 |
-| Ingesta            | Supabase Edge Functions (Deno/TS) · `ingest` + `mark_played` | Proxy seguro hacia la BD                            |
-| Base de datos      | PostgreSQL · Supabase Free Tier                              | Fuente de verdad en nube                            |
-| Parsers históricos | Python · BeautifulSoup · csv                                 | Ingesta de archivos acumulados                      |
-| ETL semanal        | Python · GitHub Actions (cron)                               | Enriquecimiento + export + backup                   |
-| Enriquecimiento    | MusicBrainz · Last.fm                                        | Metadatos canónicos + géneros                       |
-| Frontend           | React · Vite · GitHub Pages                                  | Dashboard estático + fetches live                   |
-| Backup local       | pg_dump · PowerShell · PostgreSQL local (Windows)            | Restauración offline desde artefacto GitHub Actions |
+| Componente         | Tecnología                                                                                                                                                                                                | Rol                                                 |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| Extensión          | ![Chrome MV3](https://img.shields.io/badge/Chrome-MV3-blue) ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow) ![YouTube API](https://img.shields.io/badge/YouTube-Data%20API%20v3-red)    | Captura inmediata con nota opcional                 |
+| Ingesta            | ![Supabase](https://img.shields.io/badge/Supabase-Edge%20Functions-green) ![Deno](https://img.shields.io/badge/Deno-TypeScript-black)                                                                     | Proxy seguro hacia la BD                            |
+| Base de datos      | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue) ![Supabase](https://img.shields.io/badge/Supabase-Free%20Tier-green)                                                                       | Fuente de verdad en nube                            |
+| Parsers históricos | ![Python](https://img.shields.io/badge/Python-3.11-yellow) ![BeautifulSoup](https://img.shields.io/badge/BeautifulSoup-ETL-lightgrey) ![CSV](https://img.shields.io/badge/CSV-parser-orange)              | Ingesta de archivos acumulados                      |
+| ETL semanal        | ![Python](https://img.shields.io/badge/Python-3.11-yellow) ![GitHub Actions](https://img.shields.io/badge/GitHub-Actions-blue)                                                                            | Enriquecimiento + export + backup                   |
+| Enriquecimiento    | ![MusicBrainz](https://img.shields.io/badge/MusicBrainz-ngs-orange) ![Last.fm](https://img.shields.io/badge/Last.fm-API-red)                                                                              | Metadatos canónicos + géneros                       |
+| Frontend           | ![React](https://img.shields.io/badge/React-18-blue) ![Vite](https://img.shields.io/badge/Vite-build-purple) ![GitHub Pages](https://img.shields.io/badge/GitHub-Pages-lightgrey)                         | Dashboard estático + fetches live                   |
+| Backup local       | ![pg_dump](https://img.shields.io/badge/pg_dump-backup-blue) ![PowerShell](https://img.shields.io/badge/PowerShell-scripts-darkblue) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Windows-green) | Restauración offline desde artefacto GitHub Actions |
 
 ## Disponibilidad
 
@@ -103,11 +103,11 @@ GMC_INGEST_SECRET=            # Shared secret entre extensión y Edge Function i
 
 | Fase | Épica                                          | Estado      |
 | ---- | ---------------------------------------------- | ----------- |
-| 1    | Supabase: esquema + Edge Functions             | ◻ Pendiente |
-| 2    | Parsers históricos                             | ◻ Pendiente |
-| 3    | Extensión Chrome                               | ◻ Pendiente |
-| 4    | ETL semanal: enriquecimiento + export + backup | ◻ Pendiente |
-| 5    | Frontend dashboard                             | ◻ Pendiente |
+| 1    | Supabase: esquema + Edge Functions             | ▣ Pendiente |
+| 2    | Parsers históricos                             | ▣ Pendiente |
+| 3    | Extensión Chrome                               | ▣ Pendiente |
+| 4    | ETL semanal: enriquecimiento + export + backup | ▣ Pendiente |
+| 5    | Frontend dashboard                             | ▣ Pendiente |
 
 ## Licencia
 
