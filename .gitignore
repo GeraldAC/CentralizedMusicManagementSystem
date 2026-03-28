@@ -1,0 +1,41 @@
+# Variables de entorno
+.env
+.env.local
+
+# Extensión Chrome — configuración con API keys
+extension/config.js
+
+# Supabase — generado por CLI, no versionar
+supabase/.branches/
+supabase/.temp/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+dist/
+*.egg-info/
+.pytest_cache/
+
+# Node / Frontend
+node_modules/
+frontend/dist/
+frontend/.env
+.npmrc
+
+# Archivos históricos de ingesta (datos personales)
+etl/data/
+
+# Backups locales
+*.dump
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/settings.json
+.idea/
+*.swp
