@@ -14,7 +14,6 @@ jobs:
           # Consulta de la tabla 'sources' limitando a 1 resultado para minimizar tráfico
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
             -H "apikey: $SUPABASE_PUBLISHABLE_KEY" \
-            -H "Authorization: Bearer $SUPABASE_PUBLISHABLE_KEY" \
             "$SUPABASE_URL/rest/v1/sources?select=id&limit=1")
           
           echo "Supabase responded with HTTP status: $STATUS"
@@ -23,7 +22,7 @@ jobs:
             echo "SUCCESS: Conexión exitosa a la tabla 'sources'. Proyecto activo."
             exit 0
           else
-            echo "WARNING: Se recibió un código $STATUS. Verifique Secrets y la URL."
+            echo "WARNING: Se recibió un código $STATUS."
             exit 1
           fi
         env:
