@@ -59,7 +59,7 @@ flowchart TD
 ## Estructura del repositorio
 
 ```bash
-CentralizedMusicManagementSystem/
+gmc/
 ├── docs/
 │   ├── PRODUCT.md              # Visión, flujos y requisitos
 │   └── SPEC.md                 # Arquitectura, esquema, backlog técnico
